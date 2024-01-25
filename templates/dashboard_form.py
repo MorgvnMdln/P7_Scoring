@@ -80,9 +80,10 @@ with tab1:  # ID client + resultats après réponse de l'API
                 if r.status_code == 200:
                     try:
                         response = r.json()
+                        print(f'\n \n \n **** \nRéponse de la requete r.json() :  \n{response}')
+
                         # Score du client
                         label = response['data']  # le score du client est retourné dans la variable label 
-                        # print(response)
                         print(f'\n \n **** \nVariable label contenant les scores du client : {label}')
                         label2 = (label['score_1'], label['score_2'])
                         print(f'\nVariable label2 : {label2}')  # .split('=')[0]

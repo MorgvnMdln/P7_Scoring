@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask_caching import Cache
 from werkzeug.wrappers import Request, Response
 # from prediction_model import PredictionModel
 import base64
@@ -145,6 +146,16 @@ def get_client_comparison():
                     'NAME_EDUCATION_TYPE_Secondary_secondary_special' : imageToString('images/NAME_EDUCATION_TYPE_Secondary_secondary_special.png')
                     })  
     
+
+
+
+
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
+@app.route('/clear_cache')
+def clear_cache():
+    cache.clear()
+    return 'Cache has been cleared'
 
 
 if __name__ == "__main__":
