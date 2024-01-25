@@ -1,4 +1,3 @@
-
 import os
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from werkzeug.wrappers import Request, Response
@@ -30,10 +29,23 @@ explainer = load_pickle(LIME_PATH)
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 print('SITE_ROOT :', SITE_ROOT)
-json_url = os.path.join('/app', 'small_donnees_test.json')  # donnees_test  # 'static'
+json_url = os.path.join(SITE_ROOT, 'small_donnees_test.json')  # fonctionnel
+
 print('json_url :', json_url)
-test_data = pd.read_json(json_url)
-print('test_data :', test_data)
+if os.path.exists(json_url) and os.path.getsize(json_url) > 0:
+    test_data = pd.read_json(json_url)
+    print('test_data :', test_data)
+else:
+    print(f"File {json_url} does not exist or is empty.")
+
+
+
+
+def imageToString(image_path):
+    b64_string = ''
+    with open(image_path, "rb") as img_file:
+            b64_string = base64.b64encode(img_file.read())
+    return b64_string.decode('utf-8')
 
 
 
@@ -72,12 +84,37 @@ def predict():
 
     # conversion vecteur en tags
     label = {'numero client':client_Id, 'label_1':'good', 'score_1':float(arr_results[0][0]),'label_2':'bad', 'score_2':float(arr_results[0][1]),\
-                'feature_importance_locale':dict(local_feat_importance.as_list())}
+                'feature_importance_locale':dict(local_feat_importance.as_list())} 
     print(f'label predicted :\n{label}')
     print(label)
+
+    # Filtrer les donnees du client specifique
+    client_data = test_data.loc[test_data['SK_ID_CURR'] == int(client_Id)]
+
+    # Extraire les donnees necessaires du client specifique
+    other_client_info = {
+                         'CODE_GENDER': [client_data['CODE_GENDER'].values[0].item(), 'Genre'],
+                         'FLAG_OWN_CAR': [client_data['FLAG_OWN_CAR'].values[0].item(),'Propriétaire de voiture'],
+                         'AMT_INCOME_TOTAL': [client_data['AMT_INCOME_TOTAL'].values[0].item(), 'Revenu total'],
+                         'AMT_CREDIT': [client_data['AMT_CREDIT'].values[0].item(), 'Montant du prêt'],
+                         'AMT_ANNUITY': [client_data['AMT_ANNUITY'].values[0].item(), 'Montant de l\'annuité'],
+                         'DAYS_BIRTH': [client_data['DAYS_BIRTH'].values[0].item(), 'Date de naissance'],
+                         'DAYS_EMPLOYED_PERC': [client_data['DAYS_EMPLOYED_PERC'].values[0].item(),
+                                                'Nombre de jours travaillé avant la de demande de prêt'],
+                         'DAYS_REGISTRATION': [client_data['DAYS_REGISTRATION'].values[0].item(),
+                                               'Nombre de jours entre le dernier enregistrement et la demande de prêt'],
+                         'NAME_FAMILY_STATUS_Married': [client_data['NAME_FAMILY_STATUS_Married'].values[0].item(), 'Situation Maritale'],
+                         'NAME_EDUCATION_TYPE_Secondary / secondary special': [
+                             client_data['NAME_EDUCATION_TYPE_Secondary / secondary special'].values[0].item(),
+                             'Nombre de diplômés du secondaire']
+                        }
+
+    print(f'\n \n \n **** \nOther client information :\n{other_client_info}')
+
     return jsonify({
                     'status': 'ok',
-                    'data': label
+                    'data': label,
+                    'other_data': other_client_info
                     })
 
 @app.route("/api/model_performance", methods=["GET"])
@@ -85,18 +122,31 @@ def predict():
 def get_model_performance():
     return jsonify({
                     'status': 'ok',
-                    'features_importances' :  imageToString('images/Feature_Importance_Globale.png'),  # localhost:5000/images/Classement des features les plus importantes.png
-                    'confusion_matrix_auc': imageToString('images/Confusion_Matrix_AUC.png'),  # localhost:5000/images/Confusion_Matrix.png
-                    'confusion_matrix': imageToString('images/Confusion_Matrix.png'),
-                    'roc_auc' :  imageToString('images/AUC.png') # localhost:5000/images/ROC_Curve_Analysis.png 'A SUPPRIMER'
+                    'features_importances' :  imageToString('images/Feature_Importance_Globale.png'),  # localhost:5000/images/Feature_Importance_Globale.png
                     })
 
-def imageToString(image_path):
-    b64_string = ''
-    with open(image_path, "rb") as img_file:
-            b64_string = base64.b64encode(img_file.read())
-    return b64_string.decode('utf-8')
+
+
+
+@app.route("/api/client_comparison", methods=["GET"])
+
+def get_client_comparison():
+    return jsonify({
+                    'status': 'ok',
+                    'CODE_GENDER' : imageToString('images/CODE_GENDER.png'),
+                    'FLAG_OWN_CAR' : imageToString('images/FLAG_OWN_CAR.png'),
+                    'AMT_INCOME_TOTAL' : imageToString('images/AMT_INCOME_TOTAL.png'),
+                    'AMT_CREDIT' : imageToString('images/AMT_CREDIT.png'),
+                    'AMT_ANNUITY' : imageToString('images/AMT_ANNUITY.png'),
+                    'DAYS_BIRTH' : imageToString('images/DAYS_BIRTH.png'),
+                    'DAYS_EMPLOYED_PERC' : imageToString('images/DAYS_EMPLOYED_PERC.png'),
+                    'DAYS_REGISTRATION' : imageToString('images/DAYS_REGISTRATION.png'),
+                    'NAME_FAMILY_STATUS_Married' : imageToString('images/NAME_FAMILY_STATUS_Married.png'),
+                    'NAME_EDUCATION_TYPE_Secondary_secondary_special' : imageToString('images/NAME_EDUCATION_TYPE_Secondary_secondary_special.png')
+                    })  
+    
 
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
+
