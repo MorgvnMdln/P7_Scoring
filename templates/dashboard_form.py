@@ -58,6 +58,16 @@ with tab1:  # ID client + resultats après réponse de l'API
         try:
             # If submit button is pressed
             if submit:
+                '''# ----------------------------------------------------
+                # Clear Flask cache 
+                URL0 = os.path.join(urlPath, "clear_cache")  # Clear cache
+                # http://localhost:5000/clear_cache
+                # http://credit-scoring-app-mdln.herokuapp.com/clear_cache
+                r0 = requests.get(url=URL0) 
+                # réponse de la requete r.json()
+                print(f'\n{r0}')'''
+                
+                # ----------------------------------------------------
                 # app.py
                 # URL = "https://credit-scoring-app-mdln.herokuapp.com/api/predict"
                 URL = os.path.join(urlPath, "predict")
@@ -86,7 +96,7 @@ with tab1:  # ID client + resultats après réponse de l'API
                         label = response['data']  # le score du client est retourné dans la variable label 
                         print(f'\n \n **** \nVariable label contenant les scores du client : {label}')
                         label2 = (label['score_1'], label['score_2'])
-                        print(f'\nVariable label2 : {label2}')  # .split('=')[0]
+                        print(f'\nVariable label2 : {label2}')  
                         
                         other_client_info = response['other_data']  # Dictionnaire contenant les autres informations du client
                         # Creation d'un dataframe contenant les autres informations du client
