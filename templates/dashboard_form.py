@@ -58,7 +58,7 @@ with tab1:  # ID client + resultats après réponse de l'API
         try:
             # If submit button is pressed
             if submit:
-                '''# ----------------------------------------------------
+                '''
                 # Clear Flask cache 
                 URL0 = os.path.join(urlPath, "clear_cache")  # Clear cache
                 # http://localhost:5000/clear_cache
