@@ -1,1 +1,2 @@
-web: gunicorn app:app && streamlit run templates/dashboard_form.py
+web: gunicorn app:app
+dashboard: streamlit run templates/dashboard_form.py
