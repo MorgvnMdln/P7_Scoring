@@ -13,6 +13,7 @@ import seaborn as sns
 import csv
 import io, base64
 from PIL import Image
+from dotenv import load_dotenv
 
 
 # ----------------------------------------------------
@@ -37,8 +38,9 @@ def get_age(date_value):
 st.title("Simulateur de Prêt")
 
 # Documentation >> st.help(st.form)
+load_dotenv()
 
-urlPath = 'http://credit-scoring-app-mdln.herokuapp.com/api/'
+urlPath = os.environ.get('urlPath')
 # 'http://credit-scoring-app-mdln.herokuapp.com/api/'  # Heroku
 # 'http://127.0.0.1:5000/api/'  # Localhost
 
@@ -58,14 +60,14 @@ with tab1:  # ID client + resultats après réponse de l'API
         try:
             # If submit button is pressed
             if submit:
-                '''
-                # Clear Flask cache 
-                URL0 = os.path.join(urlPath, "clear_cache")  # Clear cache
-                # http://localhost:5000/clear_cache
-                # http://credit-scoring-app-mdln.herokuapp.com/clear_cache
-                r0 = requests.get(url=URL0) 
-                # réponse de la requete r.json()
-                print(f'\n{r0}')'''
+                
+                # Clear Flask cache  # commenté
+                # URL0 = os.path.join(urlPath, "clear_cache")  # Clear cache
+                # http://localhost:5000/clear_cache  # commenté
+                # http://credit-scoring-app-mdln.herokuapp.com/clear_cache  # commenté
+                # r0 = requests.get(url=URL0) 
+                # réponse de la requete r.json()  # commenté
+                # print(f'\n{r0}')
                 
                 # ----------------------------------------------------
                 # app.py

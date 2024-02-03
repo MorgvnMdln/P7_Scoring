@@ -145,19 +145,16 @@ def get_client_comparison():
                     'NAME_FAMILY_STATUS_Married' : imageToString('images/NAME_FAMILY_STATUS_Married.png'),
                     'NAME_EDUCATION_TYPE_Secondary_secondary_special' : imageToString('images/NAME_EDUCATION_TYPE_Secondary_secondary_special.png')
                     })  
-    
 
 
+# cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-'''
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+# @app.route('/clear_cache')
+# def clear_cache():
+    # cache.clear()
+    # return 'Cache has been cleared'
 
-@app.route('/clear_cache')
-def clear_cache():
-    cache.clear()
-    return 'Cache has been cleared'
 
-'''
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
 
