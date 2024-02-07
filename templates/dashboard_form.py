@@ -88,6 +88,8 @@ def main():
 
                     if r.status_code == 200:
                         try:
+                            print(f'\n \n \n **** \nVersion du code : V_{date.today()}')
+
                             response = r.json()
                             print(f'\n \n \n **** \nRéponse de la requete r.json() :  \n{response}')
 
