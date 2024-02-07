@@ -1,2 +1,2 @@
 web: gunicorn app:app
-dashboard: streamlit run --server.port $PORT --server.address 0.0.0.0 templates/dashboard_form.py
+streamlit: sh setup.sh && streamlit run templates/dashboard_form.py
