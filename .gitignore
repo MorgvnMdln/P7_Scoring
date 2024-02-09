@@ -7,3 +7,4 @@ save_x_train/X_xgbc.pkl
 save_x_train/X_lgb.pkl
 venv/Lib/site-packages/xgboost/lib/xgboost.dll
 .env
+static/donnees_test.json
