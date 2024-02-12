@@ -39,7 +39,7 @@ def get_age(date_value):
 load_dotenv()  # 'http://127.0.0.1:5000/api/'
 
 # Heroku path
-urlPath = os.environ.get('urlPath')  # 'http://credit-scoring-app-mdln.herokuapp.com/api/'  
+urlPath = os.environ.get('urlPath')  # 'http://credit-scoring.herokuapp.com/api/'  
     
 
 # ----------------------------------------------------
@@ -68,7 +68,7 @@ def main():
                 if submit:
                                 
                     # app.py
-                    # URL = "https://credit-scoring-app-mdln.herokuapp.com/api/predict"
+                    # URL = "https://credit-scoring.herokuapp.com/api/predict"
                     URL = os.path.join(urlPath, "predict")
 
                     # Définition d'un dictionnaire de paramètres pour les paramètres à envoyer à l'API
@@ -195,7 +195,7 @@ def main():
         # Onglet 2
                 
         with tab2: # onglet performance du model
-            # URL = "http://credit-scoring-app-mdln.herokuapp.com/api/model_performance"
+            # URL = "http://credit-scoring.herokuapp.com/api/model_performance"
             URL = os.path.join(urlPath, "model_performance")
             
 
