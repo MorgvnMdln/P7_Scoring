@@ -39,7 +39,7 @@ def get_age(date_value):
 load_dotenv()  # 'http://127.0.0.1:5000/api/'
 
 # Heroku path
-urlPath = os.environ.get('urlPath')  # 'http://credit-scoring.herokuapp.com/api/'  
+urlPath = os.environ.get('urlPath')  # 'https://credit-scoring.herokuapp.com/api/'  
     
 
 # ----------------------------------------------------
@@ -195,7 +195,7 @@ def main():
         # Onglet 2
                 
         with tab2: # onglet performance du model
-            # URL = "http://credit-scoring.herokuapp.com/api/model_performance"
+            # URL = "https://credit-scoring.herokuapp.com/api/model_performance"
             URL = os.path.join(urlPath, "model_performance")
             
 
